@@ -52,7 +52,6 @@ export default {
   margin-top: 30px;
   font-size: 35px;
   font-weight: 900;
-  color: #222;
 }
 .news-info {
   margin-top: 30px;

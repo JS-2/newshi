@@ -1,7 +1,6 @@
 <template>
   <v-container>
     <v-toolbar
-        color="white"
         flat
         dense
     >

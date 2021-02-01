@@ -22,8 +22,6 @@
           <v-tooltip bottom>
             <template v-slot:activator="{ on: tooltip }">
               <v-btn
-                color="black"
-                dark
                 v-bind="attrs"
                 v-on="{ ...tooltip, ...dialog }"
                 icon
@@ -109,6 +107,15 @@
             <v-list-item-title>
               {{ menu.title }}
             </v-list-item-title>
+            <v-switch
+              v-if="menu.title === '다크모드'"
+              v-model="switchTheme"
+              value="true"
+              @click="changeTheme()"
+              inset
+              dense
+              color="orange"
+            ></v-switch>
           </v-list-item>
         </v-list-item-group>
       </v-list>
@@ -120,6 +127,8 @@
 import Login from '@/components/Login.vue';
 import Join from '@/components/Join.vue';
 import { mapActions } from 'vuex';
+
+const localThemeMode = localStorage.getItem('themeMode');
 
 export default {
   components: {
@@ -155,6 +164,7 @@ export default {
       isKakao: false,
       info: {},
       logged: true,
+      switchTheme: '',
     };
   },
   computed: {
@@ -200,6 +210,11 @@ export default {
     myPage() {
       this.$router.push('/mypage');
     },
+    changeTheme() {
+        // true일 때 darkmode, false일 때 lightmode
+        this.$store.dispatch('getThemeMode', this.switchTheme)
+        this.$vuetify.theme.dark = this.switchTheme
+    }
   },
   watch: {
     search_word: function() {
@@ -220,10 +235,17 @@ export default {
   created() {
     this.logged = this.$store.getters.loggedIn;
     this.member = this.$store.getters.userProfile;
+    this.switchTheme = localStorage.getItem('themeMode');
+    localThemeMode.toString() == 'true' ? this.$vuetify.theme.dark = true: this.$vuetify.theme.dark = false; // 시작하자마자 다크테마인지 아닌지 체크
     console.log(this.logged);
     console.log(this.member);
   },
+  
 };
 </script>
 
-<style></style>
+<style>
+#switch {
+  display: inline;
+}
+</style>
