@@ -1,6 +1,6 @@
 <template>
   <v-container>
-    <!-- news header -->
+    <!-- news header -->      
     <header>
       <div class="news-title text-center">
         {{ news.title }}
@@ -21,6 +21,14 @@
       </div>
     </header>
     <!-- main image -->
+    <template>
+      <div
+        v-touch="{
+          left: () => swipe('Left'),
+          right: () => swipe('Right'),
+        }"
+      >
+        <v-subheader>Swipe Direction: {{ swipeDirection }}</v-subheader>
     <section>
       <div class="news-image">
         <v-img
@@ -35,7 +43,7 @@
       </div>
     </section> 
     <!-- news body -->
-    <section class="my-2">
+    <section class="my-2" v-if="swipeDirection === 'Right'">
       <div class="news-body-text">
         <div class="article-bot-summary">
           <p>핵심 요약</p>
@@ -59,6 +67,8 @@
         </v-expand-transition>
       </div>
     </section>
+    </div>
+    </template>
   </v-container>
 </template>
 
@@ -68,9 +78,15 @@ export default {
   props: [
     'newsInfo',
   ],
+  methods: {
+      swipe (direction) {
+        this.swipeDirection = direction
+      },
+    },
   data: function () {
     return {
       news: this.newsInfo,
+      swipeDirection: 'Right',
     }
   }
 }
