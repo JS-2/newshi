@@ -4,7 +4,8 @@
           <v-row>
               <v-col>
                   <v-autocomplete solo @change="(event) => search(event)" 
-                      :search-input.sync="search_word" 
+                      :search-input.sync="search_word"
+                      label="#태그, 큐레이터를 입력해주세요." 
                       :items="autocomp_value">
                   </v-autocomplete>
               </v-col>

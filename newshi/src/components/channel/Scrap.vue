@@ -8,14 +8,14 @@
                   <v-container >
                     <v-row>
                       <v-col class="d-flex justify-center align-center">
-                         <v-btn class="subtitle-2" @click="showNews(scrap.postNo)">보러가기</v-btn>
+                         <v-btn small class="subtitle-2" @click="showNews(scrap.postNo)">보러가기</v-btn>
                       </v-col>
                     </v-row>
                     <v-row v-if="isMyPage==true">
                       <v-col class="d-flex justify-center align-center">
                         <v-dialog :retain-focus="false" width="500" v-model="dialog">
                           <template v-slot:activator="{ on, attrs }">
-                            <v-btn class="subtitle-2" v-bind="attrs" v-on="on" @click="modifyBtn(scrap.name, scrap.postNo)">
+                            <v-btn small class="subtitle-2" v-bind="attrs" v-on="on" @click="modifyBtn(scrap.name, scrap.postNo)">
                              수정하기
                             </v-btn>
                           </template>
