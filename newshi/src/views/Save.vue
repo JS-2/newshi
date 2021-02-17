@@ -1,12 +1,13 @@
 <template>
   <v-container>
-  <h3>내일 볼 기사</h3>
+  <h3 class="mt-1">내일 볼 기사</h3>
     <div v-if="this.logged !== null">
-      <h5>그..그만 미루자...</h5>
+      <v-divider></v-divider>
     <!-- <List :news-items="newsItems" /> -->
       <v-list>
         <template v-for="(newsInfo, i) in newsItems">
           <v-list-item
+            class="main-list"
             :key="newsInfo+i"
             @click="move(newsInfo)"
           >

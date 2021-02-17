@@ -16,6 +16,7 @@
       <v-spacer />
       <v-icon @click="toSearch">mdi-magnify</v-icon>
       <v-dialog
+        style="position: fixed"
         v-model="dialog"
         width="500"
         height="500"
@@ -71,7 +72,7 @@
         </v-list>
       </v-menu>
     </v-app-bar>
-
+    
     <!-- Footer Start -->
     <template>
       <div class="overflow-hidden">
@@ -82,7 +83,7 @@
           fixed
           bottom
         >
-          <v-btn>
+          <v-btn @click="dialog = !dialog">
             <span>로그인/회원가입</span>
             <v-icon>mdi-account-plus-outline</v-icon>
           </v-btn>
@@ -180,7 +181,6 @@ export default {
           router: '/policy',
         },
         { icon: 'home-outline', title: '만든이들', router: '/whoweare' },
-        { icon: 'information-outline', title: '버전 정보', router: '/version' },
       ],
       mounted_flag: false,
       dialog: null,
@@ -268,8 +268,7 @@ export default {
       this.logged = false;
       this.logout();
       this.member = {};
-      if (this.$router.currentRoute == '/')
-        window.location.reload();
+      if (this.$router.currentRoute == '/') window.location.reload();
       else this.$router.push('/');
     },
     closeFooter() {

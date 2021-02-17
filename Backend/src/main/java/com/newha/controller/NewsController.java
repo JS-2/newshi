@@ -191,6 +191,7 @@ public class NewsController {
 			map.put("postNo", postNo);
 		} catch (IOException e) {
 			status = HttpStatus.INTERNAL_SERVER_ERROR;
+			e.printStackTrace();
 			map.put("message", FAIL);
 		}
 
@@ -230,6 +231,7 @@ public class NewsController {
 			}
 			status = HttpStatus.ACCEPTED;
 		} catch (Exception e) {
+			e.printStackTrace();
 			status = HttpStatus.INTERNAL_SERVER_ERROR;
 		}
 		return new ResponseEntity<Map<String, String>>(map, status);
@@ -249,6 +251,7 @@ public class NewsController {
 			}
 			status = HttpStatus.ACCEPTED;
 		} catch (Exception e) {
+			e.printStackTrace();
 			status = HttpStatus.INTERNAL_SERVER_ERROR;
 		}
 		return new ResponseEntity<Map<String, String>>(map, status);
@@ -268,6 +271,7 @@ public class NewsController {
 			}
 			status = HttpStatus.ACCEPTED;
 		} catch (Exception e) {
+			e.printStackTrace();
 			status = HttpStatus.INTERNAL_SERVER_ERROR;
 		}
 		return new ResponseEntity<Map<String, String>>(map, status);
@@ -282,6 +286,7 @@ public class NewsController {
 			list = service.selectPostById(id);
 			status = HttpStatus.ACCEPTED;
 		} catch (Exception e) {
+			e.printStackTrace();
 			status = HttpStatus.INTERNAL_SERVER_ERROR;
 		}
 		return new ResponseEntity<List<Post>>(list, status);
@@ -296,6 +301,7 @@ public class NewsController {
 			list = service.selectPostByLikeName(name + "%");
 			status = HttpStatus.ACCEPTED;
 		} catch (Exception e) {
+			e.printStackTrace();
 			status = HttpStatus.INTERNAL_SERVER_ERROR;
 		}
 		return new ResponseEntity<List<Post>>(list, status);
@@ -310,6 +316,7 @@ public class NewsController {
 			list = service.selectPostByTag(tag + "%");
 			status = HttpStatus.ACCEPTED;
 		} catch (Exception e) {
+			e.printStackTrace();
 			status = HttpStatus.INTERNAL_SERVER_ERROR;
 		}
 		return new ResponseEntity<List<Post>>(list, status);
@@ -326,6 +333,7 @@ public class NewsController {
 			list = service.selectUserScrapNewsByPostNo(postNo);
 			status = HttpStatus.ACCEPTED;
 		} catch (Exception e) {
+			e.printStackTrace();
 			status = HttpStatus.INTERNAL_SERVER_ERROR;
 		}
 		return new ResponseEntity<List<UserScrapNews>>(list, status);
@@ -379,6 +387,7 @@ public class NewsController {
 			}
 			status = HttpStatus.ACCEPTED;
 		} catch (Exception e) {
+			e.printStackTrace();
 			status = HttpStatus.INTERNAL_SERVER_ERROR;
 		}
 		return new ResponseEntity<List<Map<String, String[]>>>(result, status);
@@ -434,6 +443,7 @@ public class NewsController {
 			}
 			status = HttpStatus.ACCEPTED;
 		} catch (Exception e) {
+			e.printStackTrace();
 			status = HttpStatus.INTERNAL_SERVER_ERROR;
 		}
 		return new ResponseEntity<List<Map<String, String[]>>>(result, status);
@@ -494,6 +504,7 @@ public class NewsController {
 			
 			status = HttpStatus.ACCEPTED;
 		} catch (Exception e) {
+			e.printStackTrace();
 			status = HttpStatus.INTERNAL_SERVER_ERROR;
 		}
 		return new ResponseEntity<List<Map<String, String[]>>>(result, status);
@@ -554,6 +565,7 @@ public class NewsController {
 			
 			status = HttpStatus.ACCEPTED;
 		} catch (Exception e) {
+			e.printStackTrace();
 			status = HttpStatus.INTERNAL_SERVER_ERROR;
 		}
 		return new ResponseEntity<List<Map<String, String[]>>>(result, status);
@@ -587,6 +599,7 @@ public class NewsController {
 				}
 			status = HttpStatus.ACCEPTED;
 		} catch (Exception e) {
+			e.printStackTrace();
 			status = HttpStatus.INTERNAL_SERVER_ERROR;
 		}
 		return new ResponseEntity<List<Map<String, String>>>(newsList, status);
@@ -606,6 +619,7 @@ public class NewsController {
 			}
 			status = HttpStatus.ACCEPTED;
 		} catch (Exception e) {
+			e.printStackTrace();
 			status = HttpStatus.INTERNAL_SERVER_ERROR;
 		}
 		return new ResponseEntity<Map<String, String>>(map, status);
@@ -625,6 +639,7 @@ public class NewsController {
 			}
 			status = HttpStatus.ACCEPTED;
 		} catch (Exception e) {
+			e.printStackTrace();
 			status = HttpStatus.INTERNAL_SERVER_ERROR;
 		}
 		return new ResponseEntity<Map<String, String>>(map, status);
@@ -644,6 +659,7 @@ public class NewsController {
 			}
 			status = HttpStatus.ACCEPTED;
 		} catch (Exception e) {
+			e.printStackTrace();
 			status = HttpStatus.INTERNAL_SERVER_ERROR;
 		}
 		return new ResponseEntity<Map<String, String>>(map, status);
@@ -663,6 +679,7 @@ public class NewsController {
 			}
 			status = HttpStatus.ACCEPTED;
 		} catch (Exception e) {
+			e.printStackTrace();
 			status = HttpStatus.INTERNAL_SERVER_ERROR;
 		}
 		return new ResponseEntity<Map<String, String>>(map, status);

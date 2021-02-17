@@ -1,123 +1,130 @@
 <template>
-    <v-container>
-      <v-card>
-        <v-row>
-          <v-col>
-            <v-card-actions class="d-flex justify-start">
-              <v-dialog v-model="dialog2" width="unset">
-                <template v-slot:activator="{ on, attrs }">
-                  <v-btn v-bind="attrs" v-on="on">해쉬태그 수정</v-btn>
-                </template>
-              <v-card >
-                <v-card-title>해쉬태그 수정</v-card-title>
-                <v-card-actions>
-                <v-chip-group
-                  v-model="tags"
-                  active-class="green accent-1 --text"
-                  column
-                  multiple
-                >
-                  <v-chip border large v-for="tag in tagName" :key="tag">
-                    {{ tag }}
-                  </v-chip>
-                </v-chip-group>
-                </v-card-actions>
-                <v-card-actions>
-                  <v-btn @click="modifyTags">수정</v-btn><v-btn @click="dialog2=flase">취소</v-btn>
-                </v-card-actions>
-              </v-card>
-              </v-dialog>
+  <v-container>
+    <v-row class="mt-1">
+      <v-card
+        class="mx-auto"
+        max-width="450"
+        outlined
+      >
+        <v-list-item three-line>
+          <!-- 프로필 -->
+          <v-dialog v-model="dialog">
+            <template v-slot:activator="{ on, attrs }">
+              <v-avatar class="elevation-13" size="110px">
+                <v-avatar size="100px" v-bind="attrs" v-on="on">
+                  <v-img :src="member.thumbnail_path"></v-img>
+                </v-avatar>
+              </v-avatar>
+            </template>
+            <v-card>
+              <v-card-title>파일 업로드</v-card-title>
+              <v-card-actions>
+              <v-file-input v-model="file"></v-file-input>
+              </v-card-actions>
+              <v-card-actions>
+              <v-btn @click="fileUpload">전송하기!</v-btn>
+              </v-card-actions>
+            </v-card>
+          </v-dialog>
+          <v-list-item-content class="d-flex">
+            <!-- 이름 -->
+            <v-list-item-title class="d-flex justify-center mb-1">
+              <h3>{{member.name}}</h3>
+            </v-list-item-title>
+            <v-list-item-subtitle class="d-flex justify-center">
+              {{member.id}}
+            </v-list-item-subtitle>
+            <v-card-actions class="d-flex justify-space-around">
+              <v-btn
+                rounded
+                text
+                @click="toChannel(member.id)"
+              >
+              <v-icon>mdi-post</v-icon>
+                커뮤니티
+              </v-btn>
+              <v-btn
+                text
+                rounded
+                @click="toModify"
+              >
+              <v-icon>mdi-information</v-icon>
+                정보수정
+              </v-btn>
             </v-card-actions>
-          </v-col>
-          <v-col>
-            <v-card-actions class="d-flex justify-end">
-              <v-menu offset-y>
-                <template v-slot:activator="{ on, attrs }">
-                  <v-btn
-                    v-bind="attrs"
-                    v-on="on"
-                  >
-                    회원정보 수정
-                  </v-btn>
-                </template>
-                <v-list>
-                  <v-list-item>
-                    <v-list-item-title @click="toModify"> 비밀번호 수정 </v-list-item-title>
-                  </v-list-item>
-                  <v-list-item>
-                    <v-list-item-title @click="userDelete"> 회원탈퇴 </v-list-item-title>
-                  </v-list-item>
-                </v-list>
-              </v-menu>
-            <!-- <v-btn class="mr-3" @click="toModify"> 비밀번호 수정 </v-btn> -->
-            </v-card-actions>
-          </v-col>
-        </v-row>
-        <v-row>
-          <v-col>
-            <div class="d-flex justify-center">
-              <v-dialog v-model="dialog">
-                <template v-slot:activator="{ on, attrs }">
-                  <v-avatar class="elevation-13" size="160px">
-                    <v-avatar size="150px" v-bind="attrs" v-on="on">
-                      <v-img :src="member.thumbnail_path"></v-img>
-                    </v-avatar>
-                  </v-avatar>
-                </template>
-              <v-card>
-                <v-card-title>파일 업로드</v-card-title>
-                <v-card-actions>
-                <v-file-input v-model="file"></v-file-input>
-                </v-card-actions>
-                <v-card-actions>
-                <v-btn @click="fileUpload">전송하기!</v-btn>
-                </v-card-actions>
-              </v-card>
-              </v-dialog>
-      </div>
-      <div class="d-flex justify-center mt-3">
-        <h2 @click="toChannel(member.id)" style="cursor: pointer">{{member.name}}</h2>
-      </div>
-      <div class="d-flex justify-center">
-        <p @click="toChannel(member.id)" style="cursor: pointer">{{member.id}}</p></div>
-      
-      <v-container class="mt-8">
-        <v-row >
-          <v-col></v-col>
-          <v-col cols="8">
-            <div class="d-flex justify-center" v-for="(hashtag, index) in hashtags" :key="index" >
-              <v-btn class="text-h6 font-weight-light ma-1" text color="#646464" @click="toSearch(hashtag)">#{{hashtag}}</v-btn>
-            </div>
-          </v-col>
-          <v-col></v-col>
-        </v-row>
-      </v-container>
-        </v-col>
-      </v-row>
-      <v-container>
+          </v-list-item-content>
+        </v-list-item>
+      </v-card>
+    </v-row>
+    <!-- 관심태그 추가 -->
+    <v-card-actions class="d-flex justify-center mt-2">
+      <v-dialog v-model="dialog2" width="unset">
+        <template v-slot:activator="{ on, attrs }">
+          <v-btn x-large v-bind="attrs" v-on="on" text>
+            <v-icon>mdi-pound</v-icon>
+            관심태그 추가하기
+          </v-btn>
+        </template>
+      <v-card >
+        <v-card-title>관심태그 추가</v-card-title>
+        <v-card-actions>
+        <v-chip-group
+          v-model="tags"
+          active-class="green accent-1"
+          column
+          multiple
+        >
+          <v-chip border large v-for="tag in tagName" :key="tag">
+            {{ tag }}
+          </v-chip>
+        </v-chip-group>
+        </v-card-actions>
+        <v-card-actions>
+          <v-btn @click="modifyTags">수정</v-btn><v-btn @click="dialog2=flase">취소</v-btn>
+        </v-card-actions>
+      </v-card>
+      </v-dialog>
+    </v-card-actions> 
+    <!-- 태그 나열 -->
       <v-row>
-        <v-col>
-      <v-card class="mt-8">
-        <v-list style="text-align: left">
-            <v-subheader>구독중인 큐레이터</v-subheader>
-            <v-list-item v-for="(follower, index) in followers" :key="index">
-              <v-list-item-avatar @click="toChannel(follower.id)" style="cursor: pointer">
-                <v-img :src="follower.thumbnail_path"></v-img>
-              </v-list-item-avatar>
-              <v-list-item-content @click="toChannel(follower.id)" style="cursor: pointer">
-                <v-list-item-title>{{follower.name}}</v-list-item-title>
-                <v-list-item-subtitle>{{follower.id}}</v-list-item-subtitle>
-              </v-list-item-content>
-              <v-list-item-action><v-btn class="error" @click="unfollow(follower.id)">삭제</v-btn></v-list-item-action>
-            </v-list-item>
-        </v-list>
-      </v-card>
+        <v-col class="text-center">
+          <div>
+            <v-btn v-for="(hashtag, index) in hashtags" 
+              :key="index" 
+              rounded
+              text 
+              style="font-size:90%" 
+              color="#646464" 
+              @click="toSearch(hashtag)"
+            >#<u>{{hashtag}}</u></v-btn>
+          </div>
         </v-col>
       </v-row>
-      </v-container>
-      </v-card>
-    </v-container>
-    
+      <!-- tags end -->
+    <v-row>
+      <v-col>
+    <v-card>
+      <v-list style="text-align: left">
+          <v-subheader>구독중인 큐레이터</v-subheader>
+          <v-list-item v-for="(follower, index) in followers" :key="index">
+            <v-list-item-avatar @click="toChannel(follower.id)" style="cursor: pointer">
+              <v-img :src="follower.thumbnail_path"></v-img>
+            </v-list-item-avatar>
+            <v-list-item-content @click="toChannel(follower.id)" style="cursor: pointer">
+              <v-list-item-title>{{follower.name}}</v-list-item-title>
+              <v-list-item-subtitle>{{follower.id}}</v-list-item-subtitle>
+            </v-list-item-content>
+            <v-list-item-action>
+              <v-btn color="secondary" 
+              dark 
+              rounded
+              @click="unfollow(follower.id)">구독 취소</v-btn></v-list-item-action>
+          </v-list-item>
+      </v-list>
+    </v-card>
+      </v-col>
+    </v-row>
+  </v-container>
 </template>
 
 <script>
@@ -166,7 +173,7 @@ export default {
       axios.delete(API_BASE_URL + 'delete', {params: { id: this.member.id }})
       .then(() => {
         this.logout();
-        window.location.reload();
+        this.$router.go(this.$router.currentRoute);
         // this.$router.push('/');
       })
     },
@@ -184,7 +191,7 @@ export default {
       console.log(id);
       axios.post(API_BASE_URL + 'subscdelete', frm, { headers: { 'Content-Type': 'multipart/form-data' }})
       .then(() => {
-        window.location.reload();
+        this.$router.go(this.$router.currentRoute);
       })
     },
     modifyTags(){
@@ -194,10 +201,10 @@ export default {
         params.append("list",tag_dict[tag]);
       });
       console.log(this.member.id);
-      axios.get('http://localhost:8080/tagListUpdate', 
+      axios.get(API_BASE_URL + 'tagListUpdate', 
       { params: params },
     ).then(() => { 
-      window.location.reload();
+      this.$router.go(this.$router.currentRoute);
       }) .catch((error) => { 
         // 예외 처리 
         console.log(error);
@@ -221,9 +228,9 @@ export default {
             var frm = new FormData();
             frm.append("id", this.member.id);
             frm.append("thumbnail_path", this.imageSrc);
-            axios.post('http://localhost:8080/upload', frm, { headers: { 'Content-Type': 'multipart/form-data' }})
+            axios.post(API_BASE_URL + 'upload', frm, { headers: { 'Content-Type': 'multipart/form-data' }})
             .then(() => {
-              window.location.reload();
+              this.$router.go(this.$router.currentRoute);
             })
           } else {
             alert('큐레이터의 데이터를 받아오는데 실패했습니다.');
@@ -236,7 +243,7 @@ export default {
       );
     },
     getFollowers() {
-      axios.get('http://localhost:8080/subscribe', 
+      axios.get(API_BASE_URL + 'subscribe', 
       { params: { id: this.member.id } },
     ).then((response) => { 
         // 응답 처리 
@@ -253,7 +260,7 @@ export default {
       })
     },
     getTagList() {
-      axios.get('http://localhost:8080/tagList', 
+      axios.get(API_BASE_URL + 'tagList', 
       { params: { id: this.member.id } },
     ).then((response) => { 
       var hashtags = response.data;
@@ -264,6 +271,9 @@ export default {
       })
       
       console.log(this.hashtags);
+    },
+    mouseover() {
+      alert('Hello')
     }
   },
   data() {
@@ -285,6 +295,7 @@ export default {
         '오피니언',
       ],
       tags:[],
+      show: false,
     }
   },
   created() {
@@ -299,5 +310,7 @@ export default {
 </script>
 
 <style>
-
+.v-list-item--three-line .v-list-item__content{
+  align-self: auto !important;
+}
 </style>

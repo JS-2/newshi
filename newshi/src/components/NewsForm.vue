@@ -1,22 +1,28 @@
 <template>
-  <v-expansion-panels v-model="panel" accordion>
-    <v-expansion-panel>
-      <v-expansion-panel-header
-        hide-actions
-        class="panels rounded-xl no-margin"
-      >
-        <v-row class="no-margin">
-          <v-col class="no-margin"
-            ><div class="ellipsis">{{ news.url }}</div></v-col
+  <v-expansion-panels v-model="panel">
+    <v-expansion-panel class="panels">
+      <v-tooltip bottom>
+        <template v-slot:activator="{ on, attrs }">
+          <v-expansion-panel-header
+            hide-actions
+            class="panels"
+            v-bind="attrs"
+            v-on="on"
           >
-          <v-col class="no-margin">
-            <v-btn color="red darken-4 " dark icon @click="remove"
-              ><v-icon large>mdi-close</v-icon></v-btn
-            ></v-col
-          >
-        </v-row>
-      </v-expansion-panel-header>
-      <v-expansion-panel-content class="pl-6">
+            <v-row>
+              <v-btn color="red darken-3" 
+                icon
+                dark
+                @click="remove"
+              >
+              <v-icon medium>mdi-close-circle-outline</v-icon></v-btn>
+              <v-col class="url-text ellipsis">{{ title }}</v-col>
+            </v-row>
+          </v-expansion-panel-header>
+        </template>
+        <span>{{ news.url }}</span>
+      </v-tooltip>
+      <v-expansion-panel-content>
         <Tiptap @saveData="saveOther"></Tiptap>
       </v-expansion-panel-content>
     </v-expansion-panel>
@@ -63,15 +69,21 @@ export default {
       this.panel = [];
     },
   },
-};
+    created() {
+      if (this.news.url.indexOf('naver') != -1) {
+        this.title = '네이버뉴스 ' + (this.num + 1);
+      } else {
+        this.title = '다른 뉴스 ' + this.num;
+      }
+    },
+  };
 </script>
 
 <style>
 .panels {
   border: 1px solid gray;
-  background-color: lightgray;
-  width: 80%;
-  height: 10%;
+  background-color: transparent;
+  padding: 0px;
 }
 .left-border {
   border-left: 2px solid gray;
@@ -82,9 +94,7 @@ export default {
   float: right;
 }
 .ellipsis {
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  text-align: center;
+  width: 80% !important;
+  align-items: center !important;
 }
 </style>

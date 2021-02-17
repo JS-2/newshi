@@ -4,31 +4,33 @@
       <v-progress-circular indeterminate size="60">
       </v-progress-circular></v-overlay>
     <template v-slot:activator="{ on, attrs }">
-      <v-btn color="#fcbf49" fixed bottom right fab v-bind="attrs" v-on="on">
+      <v-btn color="#fcbf49" dark fixed bottom right fab v-bind="attrs" v-on="on">
         <v-icon>mdi-pencil</v-icon>
       </v-btn>
     </template>
-    <v-card max-height="300px">
-      <v-toolbar color="orange lighten-4">
+    
+    <v-card>
+      <v-container>
+      <v-toolbar>
         <v-btn icon @click="addDialog = !addDialog">
           <v-icon>mdi-close</v-icon>
         </v-btn>
         <v-spacer />
-        <v-toolbar-title>기사 등록</v-toolbar-title>
+        <v-toolbar-title>포스트 만들기</v-toolbar-title>
         <v-spacer />
       </v-toolbar>
-
+      
       <v-form class="pa-6" @submit.prevent="registURL">
         <ValidationProvider name="url" rules="url" v-slot="{ errors }">
           <v-text-field
             v-model="url"
             :error-messages="errors"
             required
-            placeholder="URL을 등록해주세요"
+            placeholder="URL Ctrl+C 복사 Ctrl+V 붙여넣기"
             autocapitalize="off"
           ></v-text-field>
         </ValidationProvider>
-        <v-btn color="orange lighten-4" @click="registURL">
+        <v-btn color="#fcbf49" dark rounded @click="registURL">
           저장
         </v-btn>
       </v-form>
@@ -46,10 +48,11 @@
           required
           placeholder="포스트 제목을 작성해주세요"
         ></v-text-field>
-        <v-btn color="orange lighten-4" @click="registPost"
-          >등록<v-icon right>mdi-cloud-upload</v-icon>
+        <v-btn color="#fcbf49" dark rounded @click="registPost"
+          >등록
         </v-btn>
       </v-form>
+      </v-container>
     </v-card>
   </v-dialog>
 </template>
@@ -116,6 +119,7 @@ export default {
       saveArticle(
         this.post,
         (response) => {
+          this.overlay = false;
           if (response.data.message === 'success') {
             this.overlay = false;
             alert('포스트 생성에 성공하셨습니다.');

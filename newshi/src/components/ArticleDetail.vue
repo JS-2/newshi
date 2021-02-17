@@ -32,8 +32,10 @@
         >
           <v-btn 
             @click="tts"
+            dark
+            rounded
+            elevation="3"
             v-if="this.play === false"
-            outlined
           >
             <v-icon
             >
@@ -42,7 +44,9 @@
             Play
           </v-btn>
           <v-btn 
-            out
+            dark
+            rounded
+            elevation="3"
             @click="tts"
             v-else
             color="#ff9800"

@@ -1,178 +1,172 @@
 <template>
-  <div>
-    <v-card v-if="!isKakao">
-      <v-toolbar color="orange lighten-4">
-        <v-btn icon @click="closeDialog">
-          <v-icon>mdi-close</v-icon>
+  <v-card v-if="!isKakao">
+    <v-toolbar color="orange lighten-4">
+      <v-btn icon @click="closeDialog">
+        <v-icon>mdi-close</v-icon>
+      </v-btn>
+      <v-spacer></v-spacer>
+      <v-toolbar-title> 회원가입</v-toolbar-title>
+      <v-spacer></v-spacer>
+      <v-toolbar-items>
+        <v-btn text @click="changeForm">
+          로그인
         </v-btn>
-        <v-spacer></v-spacer>
-        <v-toolbar-title> 회원가입</v-toolbar-title>
-        <v-spacer></v-spacer>
-        <v-toolbar-items>
-          <v-btn text @click="changeForm">
-            로그인
-          </v-btn>
-        </v-toolbar-items>
-      </v-toolbar>
-      <v-form class="pa-6" @submit.prevent="onJoin">
-        <ValidationProvider
-          name="joinId"
-          rules="required|email"
-          v-slot="{ errors }"
-        >
-          <v-text-field
-            v-model="id"
-            :error-messages="errors"
-            label="E-mail"
-            required
-            autocapitalize="off"
-          ></v-text-field>
-          <v-btn v-show="!isDupEmailCheck" @click="emailCheck()"
-            >Email 인증</v-btn
-          >
-        </ValidationProvider>
-
-        <v-text-field
-          v-model="validNum"
-          required
-          v-show="isDupEmailCheck"
-          placeholder="인증번호를 입력해주세요"
-        ></v-text-field>
-        <v-btn v-show="isDupEmailCheck" @click="emailValidCheck()"
-          >인증번호 확인</v-btn
-        >
-        <v-btn v-show="isDupEmailCheck" @click="resendEmail()">재발송</v-btn>
-
-        <ValidationProvider
-          name="joinName"
-          rules="required|min:2"
-          v-slot="{ errors }"
-        >
-          <v-text-field
-            v-model="name"
-            :error-messages="errors"
-            label="name"
-            required
-            autocapitalize="off"
-          ></v-text-field>
-          <v-btn v-show="!isDupNameCheck" @click="nameCheck()">중복검사</v-btn>
-          <v-btn disabled v-show="isDupNameCheck">검사완료</v-btn>
-        </ValidationProvider>
-
-        <ValidationProvider
-          name="joinPassword"
-          rules="required|password"
-          v-slot="{ errors }"
-        >
-          <v-text-field
-            v-model="password"
-            type="password"
-            :error-messages="errors"
-            label="비밀번호"
-            required
-          ></v-text-field>
-        </ValidationProvider>
-
-        <ValidationProvider
-          name="joinPasswordConfirm"
-          rules="required|password|passwordConfirm:@joinPassword"
-          v-slot="{ errors }"
-        >
-          <v-text-field
-            v-model="passwordConfirm"
-            type="password"
-            :error-messages="errors"
-            label="비밀번호 확인"
-            required
-          ></v-text-field>
-        </ValidationProvider>
-        <span><h4>관심 목록</h4></span>
-        <v-row justify="space-around">
-          <v-col cols="10" sm="10" md="8">
-            <v-sheet outlined width="330">
-              <v-chip-group
-                v-model="tags"
-                multiple
-                active-class="yellow --text"
-              >
-                <v-chip border large v-for="tag in tagName" :key="tag">
-                  {{ tag }}
-                </v-chip>
-              </v-chip-group>
-            </v-sheet>
-          </v-col>
-        </v-row>
-        <br />
-        <v-btn color="orange lighten-4" @click="onJoin">회원가입</v-btn>
-      </v-form>
-    </v-card>
-
-    <v-card v-else>
-      <v-toolbar
-        color="orange lighten-4
-"
+      </v-toolbar-items>
+    </v-toolbar>
+    <v-form class="pa-6" @submit.prevent="onJoin">
+      <ValidationProvider
+        name="joinId"
+        rules="required|email"
+        v-slot="{ errors }"
       >
-        <v-btn icon @click="closeDialog">
-          <v-icon>mdi-close</v-icon>
-        </v-btn>
-        <v-toolbar-title> 회원가입</v-toolbar-title>
-        <v-spacer></v-spacer>
-        <v-toolbar-items>
-          <v-btn text @click="changeForm">
-            로그인
-          </v-btn>
-        </v-toolbar-items>
-      </v-toolbar>
-      <v-form class="pa-6" @submit.prevent="onKakaoJoin">
-        <ValidationProvider
-          name="KakaojoinId"
-          rules="required|email"
-          v-slot="{ errors }"
-        >
-          <v-text-field
-            v-model="kakaoId"
-            :error-messages="errors"
-            label="E-mail"
-            required
-            autocapitalize="off"
-          ></v-text-field>
-          <v-btn v-show="!isDupEmailCheck" @click="emailCheck()"
-            >Email 인증</v-btn
-          >
-        </ValidationProvider>
-
         <v-text-field
-          v-model="validNum"
+          v-model="id"
+          :error-messages="errors"
+          label="E-mail"
           required
-          v-show="isDupEmailCheck"
-          placeholder="인증번호를 입력해주세요"
+          autocapitalize="off"
         ></v-text-field>
-        <v-btn v-show="isDupEmailCheck" @click="emailValidCheck()"
-          >인증번호 확인</v-btn
+        <v-btn v-show="!isDupEmailCheck" @click="emailCheck()"
+          >Email 인증</v-btn
         >
-        <v-btn v-show="isDupEmailCheck" @click="resendEmail()">재발송</v-btn>
+      </ValidationProvider>
 
-        <span><h4>관심 목록</h4></span>
-        <v-row justify="space-around">
-          <v-col cols="10" sm="10" md="8">
-            <v-sheet outlined width="330">
-              <v-chip-group
-                v-model="formData.tags"
-                multiple
-                active-class="yellow --text"
-              >
-                <v-chip border large v-for="tag in tagName" :key="tag">
-                  {{ tag }}
-                </v-chip>
-              </v-chip-group>
-            </v-sheet>
-          </v-col>
-        </v-row>
-        <br />
-        <v-btn color="orange lighten-4" @click="onKakaoJoin">회원가입</v-btn>
-      </v-form>
-    </v-card>
-  </div>
+      <v-text-field
+        v-model="validNum"
+        required
+        v-show="isDupEmailCheck"
+        placeholder="인증번호를 입력해주세요"
+      ></v-text-field>
+      <v-btn v-show="isDupEmailCheck" @click="emailValidCheck()"
+        >인증번호 확인</v-btn
+      >
+      <v-btn v-show="isDupEmailCheck" @click="resendEmail()">재발송</v-btn>
+
+      <ValidationProvider
+        name="joinName"
+        rules="required|min:2"
+        v-slot="{ errors }"
+      >
+        <v-text-field
+          v-model="name"
+          :error-messages="errors"
+          label="name"
+          required
+          autocapitalize="off"
+        ></v-text-field>
+        <v-btn v-show="!isDupNameCheck" @click="nameCheck()">중복검사</v-btn>
+        <v-btn disabled v-show="isDupNameCheck">검사완료</v-btn>
+      </ValidationProvider>
+
+      <ValidationProvider
+        name="joinPassword"
+        rules="required|password"
+        v-slot="{ errors }"
+      >
+        <v-text-field
+          v-model="password"
+          type="password"
+          :error-messages="errors"
+          label="비밀번호"
+          required
+        ></v-text-field>
+      </ValidationProvider>
+
+      <ValidationProvider
+        name="joinPasswordConfirm"
+        rules="required|password|passwordConfirm:@joinPassword"
+        v-slot="{ errors }"
+      >
+        <v-text-field
+          v-model="passwordConfirm"
+          type="password"
+          :error-messages="errors"
+          label="비밀번호 확인"
+          required
+        ></v-text-field>
+      </ValidationProvider>
+      <span><h4>관심 목록</h4></span>
+      <v-row justify="space-around">
+        <v-col cols="10" sm="10" md="8">
+          <v-sheet outlined width="330">
+            <v-chip-group v-model="tags" multiple active-class="yellow --text">
+              <v-chip border large v-for="tag in tagName" :key="tag">
+                {{ tag }}
+              </v-chip>
+            </v-chip-group>
+          </v-sheet>
+        </v-col>
+      </v-row>
+      <br />
+      <v-btn color="orange lighten-4" @click="onJoin">회원가입</v-btn>
+    </v-form>
+  </v-card>
+
+  <v-card v-else>
+    <v-toolbar
+      color="orange lighten-4
+"
+    >
+      <v-btn icon @click="closeDialog">
+        <v-icon>mdi-close</v-icon>
+      </v-btn>
+      <v-toolbar-title> 회원가입</v-toolbar-title>
+      <v-spacer></v-spacer>
+      <v-toolbar-items>
+        <v-btn text @click="changeForm">
+          로그인
+        </v-btn>
+      </v-toolbar-items>
+    </v-toolbar>
+    <v-form class="pa-6" @submit.prevent="onKakaoJoin">
+      <ValidationProvider
+        name="KakaojoinId"
+        rules="required|email"
+        v-slot="{ errors }"
+      >
+        <v-text-field
+          v-model="kakaoId"
+          :error-messages="errors"
+          label="E-mail"
+          required
+          autocapitalize="off"
+        ></v-text-field>
+        <v-btn v-show="!isDupEmailCheck" @click="emailCheck()"
+          >Email 인증</v-btn
+        >
+      </ValidationProvider>
+
+      <v-text-field
+        v-model="validNum"
+        required
+        v-show="isDupEmailCheck"
+        placeholder="인증번호를 입력해주세요"
+      ></v-text-field>
+      <v-btn v-show="isDupEmailCheck" @click="emailValidCheck()"
+        >인증번호 확인</v-btn
+      >
+      <v-btn v-show="isDupEmailCheck" @click="resendEmail()">재발송</v-btn>
+
+      <span><h4>관심 목록</h4></span>
+      <v-row justify="space-around">
+        <v-col cols="10" sm="10" md="8">
+          <v-sheet outlined width="330">
+            <v-chip-group
+              v-model="formData.tags"
+              multiple
+              active-class="yellow --text"
+            >
+              <v-chip border large v-for="tag in tagName" :key="tag">
+                {{ tag }}
+              </v-chip>
+            </v-chip-group>
+          </v-sheet>
+        </v-col>
+      </v-row>
+      <br />
+      <v-btn color="orange lighten-4" @click="onKakaoJoin">회원가입</v-btn>
+    </v-form>
+  </v-card>
 </template>
 
 <script>

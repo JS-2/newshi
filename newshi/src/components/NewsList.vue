@@ -30,6 +30,7 @@
         <v-list>
           <template v-for="(newsInfo, i) in newsItem.newsLists">
             <v-list-item
+              class="main-list"
               :key="newsInfo+i"
               @click="move(newsInfo)"
             >
@@ -88,5 +89,8 @@ export default {
 }
 .v-tab {
   padding:0 0 !important;
+}
+.main-list {
+  padding-left: 0 !important;
 }
 </style>

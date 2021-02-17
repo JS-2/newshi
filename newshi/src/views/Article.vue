@@ -22,7 +22,13 @@ export default {
   },
   created: function() {
     this.newsNo = this.$route.params.newsNo;
-    this.newsInfo = this.$route.params.newsInfo2
+    
+    if(this.$route.params.newsInfo2 != undefined) {
+      this.newsInfo = this.$route.params.newsInfo2;
+      localStorage.setItem("newsInfo", JSON.stringify(this.newsInfo));
+    } else {
+      this.newsInfo = JSON.parse(localStorage["newsInfo"]);
+    }
   }
 };
 </script>

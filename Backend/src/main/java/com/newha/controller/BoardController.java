@@ -64,6 +64,7 @@ public class BoardController {
 			status = HttpStatus.ACCEPTED;
 		} catch (Exception e) {
 			map.put("message", FAIL);
+			e.printStackTrace();
 			status = HttpStatus.INTERNAL_SERVER_ERROR;
 		}
 		return new ResponseEntity<Map<String, String>>(map, status);
@@ -75,6 +76,7 @@ public class BoardController {
 		Map<String, String> map = new HashMap<>();
 		HttpStatus status = null;
 		try {
+			System.out.println("start");
 			File f = new File(file.getOriginalFilename());
 			file.transferTo(f);
 			s3service.uploadOnS3(file.getOriginalFilename(), f);
@@ -82,6 +84,7 @@ public class BoardController {
 			map.put("message", SUCCESS); 
 		} catch (Exception e) {
 			map.put("message", FAIL);
+			e.printStackTrace();
 			status = HttpStatus.INTERNAL_SERVER_ERROR;
 		}
 		return new ResponseEntity<Map<String, String>>(map, status);
@@ -120,6 +123,7 @@ public class BoardController {
 			}
 			status = HttpStatus.ACCEPTED;
 		} catch (Exception e) {
+			e.printStackTrace();
 			status = HttpStatus.INTERNAL_SERVER_ERROR;
 		}
 		return new ResponseEntity<List<Map<String, String>>>(list, status);
@@ -154,6 +158,7 @@ public class BoardController {
 			status = HttpStatus.ACCEPTED;
 		} catch (Exception e) {
 			map.put("message", FAIL);
+			e.printStackTrace();
 			status = HttpStatus.INTERNAL_SERVER_ERROR;
 		}
 		return new ResponseEntity<Map<String, String>>(map, status);
@@ -184,6 +189,7 @@ public class BoardController {
 			
 			status = HttpStatus.ACCEPTED;
 		} catch (Exception e) {
+			e.printStackTrace();
 			status = HttpStatus.INTERNAL_SERVER_ERROR;
 		}
 		service.visitCnt(boardPostNo);
@@ -216,6 +222,7 @@ public class BoardController {
 			}
 			status = HttpStatus.ACCEPTED;
 		} catch (Exception e) {
+			e.printStackTrace();
 			status = HttpStatus.INTERNAL_SERVER_ERROR;
 		}
 		return new ResponseEntity<List<Map<String, String>>>(list, status);
@@ -233,6 +240,7 @@ public class BoardController {
 			status = HttpStatus.ACCEPTED;
 		} catch (Exception e) {
 			map.put("message", FAIL);
+			e.printStackTrace();
 			status = HttpStatus.INTERNAL_SERVER_ERROR;
 		}
 		return new ResponseEntity<Map<String, String>>(map, status);
@@ -250,6 +258,7 @@ public class BoardController {
 			status = HttpStatus.ACCEPTED;
 		} catch (Exception e) {
 			map.put("message", FAIL);
+			e.printStackTrace();
 			status = HttpStatus.INTERNAL_SERVER_ERROR;
 		}
 		return new ResponseEntity<Map<String, String>>(map, status);

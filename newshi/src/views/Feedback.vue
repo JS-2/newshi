@@ -27,6 +27,9 @@
         :disabled="!valid"
         color="rgb(252, 191, 73)"
         @click="submit"
+        dark
+        rounded
+        elevation="2"
         >피드백 보내기</v-btn
       >
     </v-form> 
